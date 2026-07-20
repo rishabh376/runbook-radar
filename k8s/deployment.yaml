@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: runbook-radar
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: runbook-radar
+  template:
+    metadata:
+      labels:
+        app: runbook-radar
+    spec:
+      containers:
+      - name: app
+        image: ghcr.io/example/runbook-radar:latest
+        ports:
+        - containerPort: 8080
+        livenessProbe: { httpGet: { path: /healthz, port: 8080 } }
+        readinessProbe: { httpGet: { path: /healthz, port: 8080 } }
